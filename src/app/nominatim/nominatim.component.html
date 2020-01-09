@@ -2,11 +2,12 @@
   <div style="height: 300px;"
        leaflet
        (leafletMapReady)="onMapReady($event)"
-       [leafletOptions]="options">
+       [leafletOptions]="options"
+       (click)="$event.stopPropagation()">
     <div class="leaflet-bottom leaflet-left">
       <div class="address-lookup">
-        <input type="text" placeholder="Search..." (click)="$event.stopPropagation()"
-               (keyup)="addressLookup($event.target.value)"/>
+        <input type="text" placeholder="Search..."
+               (keyup)="addressLookup($event.target.value)" (click)="$event.stopPropagation()"/>
       </div>
     </div>
   </div>
@@ -21,8 +22,16 @@
   </div>
 </div>
 <h3>Form</h3>
-<input type="text" [(ngModel)]="name"/>
-<input type="text" [(ngModel)]="longitude"/>
-<input type="text" [(ngModel)]="latitude"/>
+<div><label for="name">Name</label>
+  <input type="text" id="name" name="name" [ngModel]="mapPoint.name"/>
+</div>
+<div><label for="longitude">Longitude</label>
+  <input type="text" id="longitude" name="longitude" [(ngModel)]="mapPoint.longitude"/>
+</div>
+<div><label for="latitude">Latitude</label>
+  <input type="text" id="latitude" name="latitude" [(ngModel)]="mapPoint.latitude"/>
+</div>
 
-<input type="submit" title="Submit form" />
+<h3>{{mapPoint.name}}</h3>
+<h3>{{mapPoint.latitude}}</h3>
+<h3>{{mapPoint.longitude}}</h3>

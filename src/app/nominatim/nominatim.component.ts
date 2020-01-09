@@ -1,7 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {icon, LatLng, latLng, Map, MapOptions, marker, tileLayer} from "leaflet";
+import {
+  icon,
+  LatLng,
+  latLng,
+  Map,
+  MapOptions,
+  marker,
+  tileLayer
+} from "leaflet";
 import {DEFAULT_LATITUDE, DEFAULT_LONGITUDE} from "../app.constants";
 import {NominatimService} from "../services/nominatim-service";
+import {MapPoint} from "../shared/models/map-point.model";
 
 @Component({
   selector: 'app-nominatim',
@@ -11,26 +20,18 @@ import {NominatimService} from "../services/nominatim-service";
 export class NominatimComponent implements OnInit {
 
   map: Map;
+  mapPoint: MapPoint;
   options: MapOptions;
   lastLayer: any;
 
-  name: string;
-
-  latitude: number;
-  longitude: number;
-
   results: any;
-
-  selected: string = "";
 
   constructor(private nominatimService: NominatimService) {
   }
 
   ngOnInit() {
     this.initializeMap();
-
-    this.latitude = DEFAULT_LATITUDE;
-    this.longitude = DEFAULT_LONGITUDE;
+    this.initializeDefaultMapPoint();
   }
 
   private initializeMap() {
@@ -43,6 +44,28 @@ export class NominatimComponent implements OnInit {
     }
   }
 
+  private initializeMapClickEvent() {
+    const mapIcon = icon({
+      iconSize: [25, 41],
+      iconAnchor: [13, 41],
+      iconUrl: 'assets/marker-icon.png'
+    });
+    this.map.on('click', <LeafletMouseEvent> (e) => {
+      if (this.map.hasLayer(this.lastLayer)) {
+        this.map.removeLayer(this.lastLayer);
+      }
+      this.lastLayer = marker(e.latlng).setIcon(mapIcon);
+      this.lastLayer.addTo(this.map);
+      this.updateMapPoint(e.latlng);
+    });
+  }
+  private initializeDefaultMapPoint() {
+    this.mapPoint = {
+      name: "Hello",
+      latitude: DEFAULT_LATITUDE,
+      longitude: DEFAULT_LONGITUDE
+    };
+  }
 
   onMapReady(map: Map) {
     this.map = map;
@@ -52,19 +75,8 @@ export class NominatimComponent implements OnInit {
       iconUrl: 'assets/marker-icon.png'
     });
     this.lastLayer = null;
-    map.on('click', <LeafletMouseEvent>(e) => {
-      if (map.hasLayer(this.lastLayer)) {
-        map.removeLayer(this.lastLayer);
-      }
-      this.lastLayer = marker(e.latlng).setIcon(mapIcon);
-      this.lastLayer.addTo(map);
-
-      this.latitude = e.latlng.latitude;
-      this.longitude = e.latlng.longitude;
-
-    });
-    if (this.longitude && this.latitude) {
-      const latlng = new LatLng(this.latitude, this.longitude);
+    if (this.mapPoint.longitude && this.mapPoint.latitude) {
+      const latlng = new LatLng(this.mapPoint.latitude, this.mapPoint.longitude);
       this.lastLayer = marker(latlng).setIcon(mapIcon).addTo(this.map);
       setTimeout(function () {
         map.invalidateSize();
@@ -73,8 +85,13 @@ export class NominatimComponent implements OnInit {
         map.setView(latlng, 12);
       }, 100)
     }
+    this.initializeMapClickEvent();
   }
 
+  private updateMapPoint(latLng: any) {
+    this.mapPoint.latitude = latLng.lat;
+    this.mapPoint.longitude = latLng.lng;
+  }
 
   addressLookup(address: string) {
     if (address.length > 3) {
@@ -87,11 +104,11 @@ export class NominatimComponent implements OnInit {
   }
 
   getAddress(lat, lng, displayName) {
-    this.latitude = lat;
-    this.longitude = lng;
-    this.name = displayName;
+    this.mapPoint.latitude = lat;
+    this.mapPoint.longitude = lng;
+    this.mapPoint.name = displayName;
     this.generateIcon();
-    const latlng = new LatLng(this.latitude, this.longitude);
+    const latlng = new LatLng(this.mapPoint.latitude, this.mapPoint.longitude);
     this.map.invalidateSize();
     this.map.panTo(latlng);
     this.map.setZoom(12);
@@ -105,7 +122,7 @@ export class NominatimComponent implements OnInit {
       iconAnchor: [13, 41],
       iconUrl: '/content/2273e3d8ad9264b7daa5bdbf8e6b47f8.png'
     });
-    const latlng = latLng([this.latitude, this.longitude]);
+    const latlng = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.lastLayer = marker(latlng).setIcon(mapIcon).addTo(this.map);
     this.map.setView(latlng, 12);
   }
