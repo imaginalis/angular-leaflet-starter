@@ -1,9 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NominatimComponent } from './nominatim/nominatim.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {NominatimComponent} from './nominatim/nominatim.component';
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import {NominatimService} from "./services/nominatim-service";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -12,9 +16,15 @@ import { NominatimComponent } from './nominatim/nominatim.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    LeafletModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    NominatimService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

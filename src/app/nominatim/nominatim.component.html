@@ -1,1 +1,28 @@
-<p>nominatim works!</p>
+<div>
+  <div style="height: 300px;"
+       leaflet
+       (leafletMapReady)="onMapReady($event)"
+       [leafletOptions]="options">
+    <div class="leaflet-bottom leaflet-left">
+      <div class="address-lookup">
+        <input type="text" placeholder="Search..." (click)="$event.stopPropagation()"
+               (keyup)="addressLookup($event.target.value)"/>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <div id="locations">
+    <ul>
+      <li *ngFor="let result of results" (click)="getAddress(result.lat, result.lon, result.display_name)">
+        {{ result.display_name }}
+      </li>
+    </ul>
+  </div>
+</div>
+<h3>Form</h3>
+<input type="text" [(ngModel)]="name"/>
+<input type="text" [(ngModel)]="longitude"/>
+<input type="text" [(ngModel)]="latitude"/>
+
+<input type="submit" title="Submit form" />

@@ -1,0 +1,8 @@
+.address-lookup {
+  z-index: 2001;
+  cursor: pointer;
+}
+
+.leaflet-bottom, .leaflet-left {
+  pointer-events: auto;
+}
