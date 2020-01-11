@@ -1,7 +1,7 @@
 <div>
   <div style="height: 300px;"
        leaflet
-       (leafletMapReady)="onMapReady($event)"
+       (leafletMapReady)="initializeMap($event)"
        [leafletOptions]="options"
        (click)="$event.stopPropagation()">
     <div class="leaflet-bottom leaflet-left">
@@ -13,7 +13,7 @@
   </div>
 </div>
 <div>
-  <div id="locations">
+  <div id="results">
     <ul>
       <li *ngFor="let result of results" (click)="getAddress(result.lat, result.lon, result.display_name)">
         {{ result.display_name }}

@@ -30,67 +30,14 @@ export class NominatimComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeMap();
+    this.initializeMapOptions();
     this.initializeDefaultMapPoint();
   }
 
-  private initializeMap() {
-    this.options = {
-      layers: [
-        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '...'})
-      ],
-      zoom: 5,
-      center: latLng(46.879966, -121.726909)
-    }
-  }
-
-  private initializeMapClickEvent() {
-    const mapIcon = icon({
-      iconSize: [25, 41],
-      iconAnchor: [13, 41],
-      iconUrl: 'assets/marker-icon.png'
-    });
-    this.map.on('click', <LeafletMouseEvent> (e) => {
-      if (this.map.hasLayer(this.lastLayer)) {
-        this.map.removeLayer(this.lastLayer);
-      }
-      this.lastLayer = marker(e.latlng).setIcon(mapIcon);
-      this.lastLayer.addTo(this.map);
-      this.updateMapPoint(e.latlng);
-    });
-  }
-  private initializeDefaultMapPoint() {
-    this.mapPoint = {
-      name: "Hello",
-      latitude: DEFAULT_LATITUDE,
-      longitude: DEFAULT_LONGITUDE
-    };
-  }
-
-  onMapReady(map: Map) {
+  initializeMap(map: Map) {
     this.map = map;
-    const mapIcon = icon({
-      iconSize: [25, 41],
-      iconAnchor: [13, 41],
-      iconUrl: 'assets/marker-icon.png'
-    });
-    this.lastLayer = null;
-    if (this.mapPoint.longitude && this.mapPoint.latitude) {
-      const latlng = new LatLng(this.mapPoint.latitude, this.mapPoint.longitude);
-      this.lastLayer = marker(latlng).setIcon(mapIcon).addTo(this.map);
-      setTimeout(function () {
-        map.invalidateSize();
-        map.panTo(latlng);
-        map.setZoom(12);
-        map.setView(latlng, 12);
-      }, 100)
-    }
-    this.initializeMapClickEvent();
-  }
-
-  private updateMapPoint(latLng: any) {
-    this.mapPoint.latitude = latLng.lat;
-    this.mapPoint.longitude = latLng.lng;
+    this.createMarker();
+    this.initializeMapClickEventListening();
   }
 
   addressLookup(address: string) {
@@ -103,29 +50,71 @@ export class NominatimComponent implements OnInit {
     }
   }
 
-  getAddress(lat, lng, displayName) {
-    this.mapPoint.latitude = lat;
-    this.mapPoint.longitude = lng;
-    this.mapPoint.name = displayName;
-    this.generateIcon();
-    const latlng = new LatLng(this.mapPoint.latitude, this.mapPoint.longitude);
-    this.map.invalidateSize();
-    this.map.panTo(latlng);
-    this.map.setZoom(12);
-    this.map.setView(latlng, 12)
+  getAddress(latitude: number, longitude: number, name: string) {
+    this.updateMapPoint(latitude, longitude, name);
+    this.createMarker();
+    const coordinates = new LatLng(this.mapPoint.latitude, this.mapPoint.longitude);
+    this.setMapView(coordinates);
   }
 
-  private generateIcon() {
-    if (this.map.hasLayer(this.lastLayer)) this.map.removeLayer(this.lastLayer);
-    const mapIcon = icon({
+
+  private initializeMapOptions() {
+    this.options = {
+      layers: [
+        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'OSM'})
+      ]
+    }
+  }
+
+  private initializeMapClickEventListening() {
+    this.map.on('click', <LeafletMouseEvent> (e) => {
+      if (this.map.hasLayer(this.lastLayer)) {
+        this.map.removeLayer(this.lastLayer);
+      }
+      this.createMarker();
+      this.updateMapPoint(e.latlng.lat, e.latlng.lng);
+    });
+  }
+
+  private initializeDefaultMapPoint() {
+    this.mapPoint = {
+      name: "Hello",
+      latitude: DEFAULT_LATITUDE,
+      longitude: DEFAULT_LONGITUDE
+    };
+  }
+
+  private updateMapPoint(latitude: number, longitude: number, name?: string) {
+    this.mapPoint.latitude = latitude;
+    this.mapPoint.longitude = longitude;
+    if(name)
+      this.mapPoint.name = name;
+  }
+
+  private createMarker() {
+    this.clearMap();
+    const mapIcon = this.getDefaultIcon();
+    const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
+    this.lastLayer = marker(coordinates).setIcon(mapIcon).addTo(this.map);
+    this.map.setView(coordinates, 12);
+  }
+
+  private getDefaultIcon() {
+    return icon({
       iconSize: [25, 41],
       iconAnchor: [13, 41],
-      iconUrl: '/content/2273e3d8ad9264b7daa5bdbf8e6b47f8.png'
+      iconUrl: 'assets/marker-icon.png'
     });
-    const latlng = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
-    this.lastLayer = marker(latlng).setIcon(mapIcon).addTo(this.map);
-    this.map.setView(latlng, 12);
   }
 
+  private setMapView(coordinates: LatLng) {
+    this.map.panTo(coordinates);
+    this.map.setZoom(12);
+    this.map.setView(coordinates, 12)
+  }
+
+  private clearMap() {
+    if (this.map.hasLayer(this.lastLayer)) this.map.removeLayer(this.lastLayer);
+  }
 
 }
