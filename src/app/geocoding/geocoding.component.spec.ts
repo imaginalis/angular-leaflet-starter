@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NominatimComponent } from './nominatim.component';
+import { GeocodingComponent } from './geocoding.component';
 
 describe('NominatimComponent', () => {
-  let component: NominatimComponent;
-  let fixture: ComponentFixture<NominatimComponent>;
+  let component: GeocodingComponent;
+  let fixture: ComponentFixture<GeocodingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NominatimComponent ]
+      declarations: [ GeocodingComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NominatimComponent);
+    fixture = TestBed.createComponent(GeocodingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
