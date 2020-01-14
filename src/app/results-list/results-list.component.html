@@ -1,0 +1,9 @@
+<div>
+  <div id="results">
+    <ul>
+      <li *ngFor="let result of results" (click)="selectResult(result)">
+        {{ result.displayName }}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -10,13 +10,15 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import { MapComponent } from './map/map.component';
 import { MapPointFormComponent } from './map-point-form/map-point-form.component';
+import { ResultsListComponent } from './results-list/results-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GeocodingComponent,
     MapComponent,
-    MapPointFormComponent
+    MapPointFormComponent,
+    ResultsListComponent
   ],
   imports: [
     BrowserModule,
