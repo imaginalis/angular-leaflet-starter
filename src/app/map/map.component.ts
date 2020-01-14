@@ -35,7 +35,6 @@ export class MapComponent implements OnInit {
 
   initializeMap(map: Map) {
     this.map = map;
-    this.initializeMapClickEventListening();
     this.createMarker();
   }
 
