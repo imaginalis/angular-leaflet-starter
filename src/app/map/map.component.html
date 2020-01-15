@@ -3,8 +3,7 @@
        leaflet
        (leafletMapReady)="initializeMap($event)"
        [leafletOptions]="options"
-       (leafletClick)="initializeMapClickEventListening()"
-  >
+       (leafletClick)="onMapClick($event)">
     <div class="leaflet-bottom leaflet-left">
       <app-geocoding (onSearch)="refreshSearchList($event)"></app-geocoding>
     </div>

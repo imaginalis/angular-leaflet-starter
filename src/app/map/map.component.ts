@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {
   icon,
-  latLng,
+  latLng, LeafletMouseEvent,
   Map,
   MapOptions,
   marker,
@@ -29,8 +29,8 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeMapOptions();
     this.initializeDefaultMapPoint();
+    this.initializeMapOptions();
   }
 
   initializeMap(map: Map) {
@@ -56,16 +56,6 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private initializeMapClickEventListening() {
-    this.map.on('click', <LeafletMouseEvent>(e) => {
-      if (this.map.hasLayer(this.lastLayer)) {
-        this.map.removeLayer(this.lastLayer);
-      }
-      this.createMarker();
-      this.updateMapPoint(e.latlng.lat, e.latlng.lng);
-    });
-  }
-
   private initializeDefaultMapPoint() {
     this.mapPoint = {
       name: "Hello",
@@ -74,11 +64,18 @@ export class MapComponent implements OnInit {
     };
   }
 
+  private onMapClick(e: LeafletMouseEvent) {
+    this.clearMap();
+    this.updateMapPoint(e.latlng.lat, e.latlng.lng);
+    this.createMarker();
+  }
+
   private updateMapPoint(latitude: number, longitude: number, name?: string) {
-    this.mapPoint.latitude = latitude;
-    this.mapPoint.longitude = longitude;
-    if (name)
-      this.mapPoint.name = name;
+    this.mapPoint = {
+      latitude: latitude,
+      longitude: longitude,
+      name: name ? name : this.mapPoint.name
+    };
   }
 
   private createMarker() {

@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {NominatimResponse} from "../shared/models/nominatim-response.model";
 import {map} from "rxjs/operators";
+import {BASE_NOMINATIM_URL, DEFAULT_VIEW_BOX} from "../app.constants";
 
 @Injectable()
 export class NominatimService {
@@ -11,7 +12,7 @@ export class NominatimService {
   }
 
   addressLookup(req?: any): Observable<NominatimResponse[]> {
-    let url = "https://nominatim.openstreetmap.org/search?format=json&q=" + req + "&viewbox=17.32%2C54.14%2C18.46%2C53.33&bounded=1";
+    let url = `https://${BASE_NOMINATIM_URL}/search?format=json&q=${req}&${DEFAULT_VIEW_BOX}`;
     return this.http
       .get(url).pipe(
         map((data: any[]) => data.map((item: any) => new NominatimResponse(
