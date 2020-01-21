@@ -43,7 +43,7 @@ export class MapComponent implements OnInit {
     this.createMarker();
   }
 
-  refreshSearchList(results: any) {
+  refreshSearchList(results: NominatimResponse[]) {
     this.results = results;
   }
 
