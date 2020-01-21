@@ -10,7 +10,6 @@ import {NominatimResponse} from "../shared/models/nominatim-response.model";
 export class GeocodingComponent {
 
   @Output() onSearch = new EventEmitter();
-  @Output() locationSelect = new EventEmitter();
   searchResults: NominatimResponse[];
 
   constructor(private nominatimService: NominatimService) {
