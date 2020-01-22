@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GeocodingComponent } from './geocoding.component';
+import {GeocodingComponent} from './geocoding.component';
 
 describe('NominatimComponent', () => {
   let component: GeocodingComponent;
@@ -8,9 +8,9 @@ describe('NominatimComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GeocodingComponent ]
+      declarations: [GeocodingComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

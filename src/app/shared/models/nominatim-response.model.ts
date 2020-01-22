@@ -1,7 +1,8 @@
 export class NominatimResponse {
-  constructor(
+  constructor (
     public latitude: number,
     public longitude: number,
     public displayName: string
-  ) { }
+  ) {
+  }
 }

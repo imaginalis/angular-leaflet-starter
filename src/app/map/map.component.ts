@@ -1,15 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {
-  icon,
-  latLng, LeafletMouseEvent,
-  Map,
-  MapOptions,
-  marker,
-  tileLayer
-} from "leaflet";
-import {DEFAULT_LATITUDE, DEFAULT_LONGITUDE} from "../app.constants";
-import {MapPoint} from "../shared/models/map-point.model";
-import {NominatimResponse} from "../shared/models/nominatim-response.model";
+import {icon, latLng, LeafletMouseEvent, Map, MapOptions, marker, tileLayer} from 'leaflet';
+import {DEFAULT_LATITUDE, DEFAULT_LONGITUDE} from '../app.constants';
+import {MapPoint} from '../shared/models/map-point.model';
+import {NominatimResponse} from '../shared/models/nominatim-response.model';
 
 @Component({
   selector: 'app-map',
@@ -25,29 +18,29 @@ export class MapComponent implements OnInit {
 
   results: NominatimResponse[];
 
-  constructor() {
+  constructor () {
   }
 
-  ngOnInit() {
+  ngOnInit () {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
   }
 
-  initializeMap(map: Map) {
+  initializeMap (map: Map) {
     this.map = map;
     this.createMarker();
   }
 
-  getAddress(result: NominatimResponse) {
+  getAddress (result: NominatimResponse) {
     this.updateMapPoint(result.latitude, result.longitude, result.displayName);
     this.createMarker();
   }
 
-  refreshSearchList(results: NominatimResponse[]) {
+  refreshSearchList (results: NominatimResponse[]) {
     this.results = results;
   }
 
-  private initializeMapOptions() {
+  private initializeMapOptions () {
     this.options = {
       zoom: 12,
       layers: [
@@ -56,21 +49,21 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private initializeDefaultMapPoint() {
+  private initializeDefaultMapPoint () {
     this.mapPoint = {
-      name: "Hello",
+      name: 'Hello',
       latitude: DEFAULT_LATITUDE,
       longitude: DEFAULT_LONGITUDE
     };
   }
 
-  private onMapClick(e: LeafletMouseEvent) {
+  private onMapClick (e: LeafletMouseEvent) {
     this.clearMap();
     this.updateMapPoint(e.latlng.lat, e.latlng.lng);
     this.createMarker();
   }
 
-  private updateMapPoint(latitude: number, longitude: number, name?: string) {
+  private updateMapPoint (latitude: number, longitude: number, name?: string) {
     this.mapPoint = {
       latitude: latitude,
       longitude: longitude,
@@ -78,7 +71,7 @@ export class MapComponent implements OnInit {
     };
   }
 
-  private createMarker() {
+  private createMarker () {
     this.clearMap();
     const mapIcon = this.getDefaultIcon();
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
@@ -86,7 +79,7 @@ export class MapComponent implements OnInit {
     this.map.setView(coordinates, this.map.getZoom());
   }
 
-  private getDefaultIcon() {
+  private getDefaultIcon () {
     return icon({
       iconSize: [25, 41],
       iconAnchor: [13, 41],
@@ -94,7 +87,7 @@ export class MapComponent implements OnInit {
     });
   }
 
-  private clearMap() {
+  private clearMap () {
     if (this.map.hasLayer(this.lastLayer)) this.map.removeLayer(this.lastLayer);
   }
 

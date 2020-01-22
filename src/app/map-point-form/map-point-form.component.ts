@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {MapPoint} from "../shared/models/map-point.model";
+import {MapPoint} from '../shared/models/map-point.model';
 
 @Component({
   selector: 'app-map-point-form',
@@ -10,6 +10,7 @@ export class MapPointFormComponent {
   @Input()
   mapPoint: MapPoint;
 
-  constructor() { }
+  constructor () {
+  }
 
 }

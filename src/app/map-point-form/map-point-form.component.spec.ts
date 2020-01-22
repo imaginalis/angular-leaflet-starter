@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MapPointFormComponent } from './map-point-form.component';
+import {MapPointFormComponent} from './map-point-form.component';
 
 describe('MapPointFormComponent', () => {
   let component: MapPointFormComponent;
@@ -8,9 +8,9 @@ describe('MapPointFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MapPointFormComponent ]
+      declarations: [MapPointFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

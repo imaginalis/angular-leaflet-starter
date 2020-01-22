@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NominatimResponse} from "../shared/models/nominatim-response.model";
+import {NominatimResponse} from '../shared/models/nominatim-response.model';
 
 @Component({
   selector: 'app-results-list',
@@ -14,10 +14,10 @@ export class ResultsListComponent {
   @Output()
   locationSelected = new EventEmitter();
 
-  constructor() {
+  constructor () {
   }
 
-  selectResult(result: NominatimResponse) {
+  selectResult (result: NominatimResponse) {
     this.locationSelected.emit(result);
   }
 
