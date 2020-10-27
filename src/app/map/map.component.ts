@@ -40,6 +40,12 @@ export class MapComponent implements OnInit {
     this.results = results;
   }
 
+  onMapClick (e: LeafletMouseEvent) {
+    this.clearMap();
+    this.updateMapPoint(e.latlng.lat, e.latlng.lng);
+    this.createMarker();
+  }
+
   private initializeMapOptions () {
     this.options = {
       zoom: 12,
@@ -55,12 +61,6 @@ export class MapComponent implements OnInit {
       latitude: DEFAULT_LATITUDE,
       longitude: DEFAULT_LONGITUDE
     };
-  }
-
-  private onMapClick (e: LeafletMouseEvent) {
-    this.clearMap();
-    this.updateMapPoint(e.latlng.lat, e.latlng.lng);
-    this.createMarker();
   }
 
   private updateMapPoint (latitude: number, longitude: number, name?: string) {
