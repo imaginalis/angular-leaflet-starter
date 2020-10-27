@@ -1,6 +1,6 @@
 # Angular + Leaflet + Nominatim
 
-This project contains simple `Angular 8` app with `Leaflet` map library integration along with `Nominatim API` geocoding.
+This project contains simple `Angular 10` app with `Leaflet` map library integration along with `Nominatim API` geocoding.
 
 ## Run
 
