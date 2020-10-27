@@ -15,4 +15,4 @@ Run `ng build` to build the project.
 
 ## More information
 
-+ Blog post: [Angular 8 with Leaflet map - geocoding using Nominatim API](https://blog.mestwin.net/angular-8-with-leaflet-map-geocoding-using-nominatim-api)
++ Blog post: [Angular 10 with Leaflet map - geocoding using Nominatim API](https://blog.mestwin.net/angular-8-with-leaflet-map-geocoding-using-nominatim-api)
